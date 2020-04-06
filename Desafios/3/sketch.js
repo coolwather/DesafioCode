@@ -1,16 +1,41 @@
+//TODO Corrigir o erro que ocorre quando o usuário coloca a cobrinha pra ir para o sentido contrário ao do movimento
+//TODO Efetuar a validação de quando a cobrinha bate na borda da tela
+
 var s;
 var scl = 20;
+
+var food;
 
 function setup() {
   createCanvas(600, 600);
   s = new Snake();
   frameRate(10);
+  pickLocation();
+}
+
+function mousePressed() {
+  s.total++;
+}
+
+function pickLocation() {
+  var cols = floor(width/scl);
+  var rows = floor(height/scl);
+
+  food = createVector(floor(random(cols)),floor(random(rows)));
+  food.mult(scl);
 }
 
 function draw() {
   background(51);
+  if(s.eat(food)) {
+    pickLocation();
+  }
+  s.death();
   s.update();
   s.show();
+
+  fill(255, 0, 100);
+  rect(food.x, food.y, scl, scl)
 }
 
 function keyPressed() {
